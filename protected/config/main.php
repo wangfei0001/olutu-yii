@@ -40,34 +40,32 @@ return array(
         'urlManager'=>array(
             'urlFormat'=>'path',
             'rules'=>array(
-                'post/<id:\d+>/<title:.*?>'=>'post/view',
-                'posts/<tag:.*?>'=>'post/index',
+/*                'post/<id:\d+>/<title:.*?>'=>'post/view',*/
                 // REST patterns
-                array('api/list', 'pattern'=>'api/<model:\w+>', 'verb'=>'GET'),
-                array('api/view', 'pattern'=>'api/<model:\w+>/<id:\d+>', 'verb'=>'GET'),
-                array('api/update', 'pattern'=>'api/<model:\w+>/<id:\d+>', 'verb'=>'PUT'),
-                array('api/delete', 'pattern'=>'api/<model:\w+>/<id:\d+>', 'verb'=>'DELETE'),
-                array('api/create', 'pattern'=>'api/<model:\w+>', 'verb'=>'POST'),
+                array('<version>/<controller>/list', 'pattern'=>'api/<version:\w+>/<controller:\w+>', 'verb'=>'GET'),
+                array('<version>/<controller>/view', 'pattern'=>'api/<version:\w+>/<controller:\w+>/<id:\d+>', 'verb'=>'GET'),
+                array('<version>/<controller>/update', 'pattern'=>'api/<version:\w+>/<controller:\w+>/<id:\d+>', 'verb'=>'PUT'),
+                array('<version>/<controller>/delete', 'pattern'=>'api/<version:\w+>/<controller:\w+>/<id:\d+>', 'verb'=>'DELETE'),
+                array('<version>/<controller>/create', 'pattern'=>'api/<version:\w+>/<controller:\w+>', 'verb'=>'POST'),
                 // Other controllers
-                '<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
+
             ),
         ),
-		'db'=>array(
+/*		'db'=>array(
 			'connectionString' => 'sqlite:'.dirname(__FILE__).'/../data/testdrive.db',
-		),
+		),*/
 		// uncomment the following to use a MySQL database
-		/*
+
 		'db'=>array(
-			'connectionString' => 'mysql:host=localhost;dbname=testdrive',
+			'connectionString' => 'mysql:host=localhost;dbname=olutu',
 			'emulatePrepare' => true,
 			'username' => 'root',
 			'password' => '',
 			'charset' => 'utf8',
 		),
-		*/
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
-			'errorAction'=>'site/error',
+			'errorAction'=>'error/error',
 		),
 		'log'=>array(
 			'class'=>'CLogRouter',
