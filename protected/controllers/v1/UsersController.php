@@ -20,7 +20,19 @@ class UsersController extends ApiController
 
     public function actionCreate()
     {
+        $user = new User;
 
+        $user->email = $this->getParam('email');
+        $user->username = $this->getParam('username');
+        $user->lname = $this->getParam('lname');
+        $user->fname = $this->getParam('fname');
+
+        //$user->created_at = date('Y-m-d H:i:s');
+
+        var_dump($user->attributes);
+        var_dump($user->save());
+
+        die('fuck');
     }
 
     public function actionUpdate()

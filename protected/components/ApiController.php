@@ -48,4 +48,29 @@ class ApiController extends CController
     public function actionDelete()
     {
     }
+
+
+    /***
+     */
+    public function getParam($key, $default = null)
+    {
+        $value = Yii::app()->request->getParam($key);
+
+        if (is_null($value)) {
+            if (isset($_COOKIE[$key])) {
+                $value = $_COOKIE[$key];
+            } elseif (isset($_SERVER[$key])) {
+                $value = $_SERVER[$key];
+            }
+        }
+
+        if (is_null($value)) {
+            $value = $default;
+        }
+
+        if (is_string($value)) {
+            $value = strip_tags($value);
+        }
+        return $value;
+    }
 }
