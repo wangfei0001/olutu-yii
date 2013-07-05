@@ -149,4 +149,18 @@ class ApiController extends CController
 
         Yii::app()->end();
     }
+
+    protected function toArray(array $objectArray)
+    {
+        $result = false;
+        if($objectArray){
+            $result = array();
+            foreach($objectArray as $object){
+                if($object instanceof CActiveRecord){
+                    $result[] = $object->attributes;
+                }
+            }
+        }
+        return $result;
+    }
 }

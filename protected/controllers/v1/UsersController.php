@@ -18,6 +18,10 @@ class UsersController extends ApiController
     {
     }
 
+
+    /***
+     *
+     */
     public function actionCreate()
     {
         $user = new User;

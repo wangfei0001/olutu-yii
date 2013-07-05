@@ -17,6 +17,7 @@ return array(
 		'application.models.*',
 		'application.components.*',
 //        'zii.behaviors.CTimestampBehavior'
+//        'application.extensions.CAdvancedArFindBehavior'
 	),
 
 	'modules'=>array(
