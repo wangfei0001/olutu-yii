@@ -8,17 +8,39 @@
  */
 class User extends UserBase
 {
-    /***
-     * @return array
-     */
+    public function rules()
+    {
+        // NOTE: you should only define rules for those attributes that
+        // will receive user inputs.
+        return array(
+            array('username, email, lname, fname', 'required'),
+            array('username, email', 'length', 'max'=>255),
+            array('lname, fname', 'length', 'max'=>128),
+            // The following rule is used by search().
+            // Please remove those attributes that should not be searched.
+            array('id_user, username, email, lname, fname, created_at, updated_at', 'safe', 'on'=>'search'),
+        );
+    }
+
     public function behaviors(){
         return array(
             'CTimestampBehavior' => array(
                 'class' => 'zii.behaviors.CTimestampBehavior',
                 'createAttribute' => 'created_at',
                 'updateAttribute' => 'updated_at',
-                'setUpdateOnCreate' => true
             )
         );
     }
+
+    /***
+     * @return bool
+     */
+//    public function save()
+//    {
+//        $oldUser = self::model()->find('email=:email', array(':email'=>$this->email));
+//        if(!empty($oldUser)){
+//            return false;
+//        }
+//        return parent::save();
+//    }
 }
