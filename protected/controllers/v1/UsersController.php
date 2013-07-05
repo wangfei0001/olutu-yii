@@ -27,12 +27,24 @@ class UsersController extends ApiController
         $user->lname = $this->getParam('lname');
         $user->fname = $this->getParam('fname');
 
-        //$user->created_at = date('Y-m-d H:i:s');
 
-        var_dump($user->attributes);
-        var_dump($user->save());
+        if($user->save()){
+            $this->_sendResponse(
+                array(
+                    'status'    =>      true,
+                    'data'      =>      $user->attributes,
+                    'message'   =>      'Create account success'
+                )
+            );
 
-        die('fuck');
+        }else{
+            $this->_sendResponse(
+                array(
+                    'status'    =>      false,
+                    'message'   =>      'Could not create account'
+                )
+            );
+        }
     }
 
     public function actionUpdate()

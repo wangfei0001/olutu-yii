@@ -16,7 +16,7 @@ return array(
 	'import'=>array(
 		'application.models.*',
 		'application.components.*',
-        'zii.behaviors.CTimestampBehavior'
+//        'zii.behaviors.CTimestampBehavior'
 	),
 
 	'modules'=>array(
