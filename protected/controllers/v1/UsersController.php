@@ -20,7 +20,7 @@ class UsersController extends ApiController
 
 
     /***
-     *
+     * curl -d 'email=wangfei001@hotmail.com&username=wangfei0001&lname=wang&fname=fei' http://olutu-yii/api/v1/users
      */
     public function actionCreate()
     {

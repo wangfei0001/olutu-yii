@@ -10,8 +10,14 @@ class TripsController extends ApiController
 {
     public function actionList()
     {
+        $rows = Trip::model('Trip')->findColumn('name,fk_user,is_group,created_at');
 
-
-        die('fuck');
+        $this->_sendResponse(
+            array(
+                'status'    =>      true,
+                'data'      =>      $rows,
+                'message'   =>      'Get the trips successfully!'
+            )
+        );
     }
 }

@@ -9,4 +9,8 @@
 class Trip extends TripBase
 {
 
+    public function behaviors(){
+        return array( 'CAdvancedArFindBehavior' => array(
+            'class' => 'application.extensions.CAdvancedArFindBehavior'));
+    }
 }
