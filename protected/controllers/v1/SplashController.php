@@ -8,6 +8,9 @@
  */
 class SplashController extends ApiController
 {
+    /***
+     * curl  http://olutu-yii/api/v1/splash
+     */
     public function actionList()
     {
         $rows = Splash::model('Splash')->findColumn('url,image_type,duration');
