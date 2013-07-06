@@ -10,7 +10,16 @@ class TripsController extends ApiController
 {
     public function actionList()
     {
-        $rows = Trip::model('Trip')->findColumn('name,fk_user,is_group,created_at');
+        $rows = Trip::model('Trip')->findColumn('name,fk_user,is_group,created_at,fk_default_image');
+
+        foreach($rows as &$row){
+            if($row['fk_default_image'] != 0){
+                $image = TripImage::model()->find('id_trip_image = :id_trip_image', array(':id_trip_image' => $row['fk_default_image']));
+                $row['image'] = $image->path;
+                $row['height'] = $image->thumb_height;
+            }
+
+        }
 
         $this->_sendResponse(
             array(
