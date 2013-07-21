@@ -9,12 +9,12 @@
 class UsersController extends ApiController
 {
 
-    public function actionList()
+    public function Index()
     {
 
     }
 
-    public function actionView()
+    public function View()
     {
     }
 
@@ -22,7 +22,7 @@ class UsersController extends ApiController
     /***
      * curl -d 'email=wangfei001@hotmail.com&username=wangfei0001&password=616682' http://olutu-yii/api/v1/users
      */
-    public function actionCreate()
+    public function Create()
     {
         $user = new User;
 
@@ -52,11 +52,11 @@ class UsersController extends ApiController
         }
     }
 
-    public function actionUpdate()
+    public function Update()
     {
     }
 
-    public function actionDelete()
+    public function Delete()
     {
     }
 }

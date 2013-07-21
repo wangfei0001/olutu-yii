@@ -20,6 +20,107 @@ class ApiController extends CController
      * either 'json' or 'xml'
      */
     private $format = 'json';
+
+    protected $latestVersion = 1;
+
+    protected $id;
+
+
+    /***
+     * Set error handler function
+     */
+    public function init()
+    {
+        parent::init();
+
+        Yii::app()->attachEventHandler('onException',array($this,'handleError'));
+        Yii::app()->attachEventHandler('onError',array($this,'handleError'));
+    }
+
+
+    /***
+     * Error handle function for Api controller
+     *
+     * @param CEvent $event
+     */
+    public function handleError(CEvent $event)
+    {
+        $statusCode = 500;
+
+        if ($event instanceof CExceptionEvent)
+        {
+            $statusCode = $event->exception->statusCode;
+
+            $body = array(
+                'code' => $event->exception->getCode(),
+                'message' => $event->exception->getMessage(),
+                'file' => YII_DEBUG ? $event->exception->getFile() : '*',
+                'line' => YII_DEBUG ? $event->exception->getLine() : '*',
+                'status' => false
+            );
+
+        }
+        elseif($event instanceof CErrorEvent)
+        {
+            $body = array(
+                'code' => $event->code,
+                'message' => $event->message,
+                'file' => YII_DEBUG ? $event->file : '*',
+                'line' => YII_DEBUG ? $event->line : '*',
+                'status' => false
+            );
+        }
+        $event->handled = TRUE;
+        $this->_sendResponse($body, $statusCode);
+    }
+
+
+    /***
+     * Get Controller
+     *
+     * @return mixed
+     * @throws Exception
+     */
+    protected function getController()
+    {
+        $version = $this->getParam('version');
+        $controller = $this->getParam('controller');
+        $association = $this->getParam('association');
+
+
+
+        if($version != $this->latestVersion){
+            throw new Exception('Version ' .$version .' not support!');
+        }
+        //check main controller
+        $className = ucfirst($controller) .'Controller';
+        Yii::import('application.controllers.v' .$version .'.' .$className);
+
+        if(!class_exists($className)){
+            throw new Exception('Class ' .$className .' not found!');
+        }
+        if(!$association){  //no association controller
+            return new $className($controller);
+        }
+
+
+        //check asso controller
+        $assoClassName = ucfirst($association) .'Controller';
+        Yii::import('application.controllers.v' .$version .'.' .$assoClassName);
+
+        if(!class_exists($assoClassName)){
+            throw new Exception('Association Class ' .$assoClassName .' not found!');
+        }
+
+        $id = $this->getParam('id');
+        if(!$id){
+            throw new Exception('Found sub resources but no related id!');
+        }
+        $this->id = $id;
+
+        return new $assoClassName($association);
+    }
+
     /**
      * @return array action filters
      */
@@ -31,6 +132,7 @@ class ApiController extends CController
     // Actions
     public function actionList()
     {
+        return $this->getController()->Index();
     }
 
     public function actionView()
@@ -39,14 +141,70 @@ class ApiController extends CController
 
     public function actionCreate()
     {
+        return $this->getController()->Create($this->id);
     }
 
     public function actionUpdate()
     {
+        return $this->getController()->Update($this->id);
     }
 
     public function actionDelete()
     {
+        return $this->getController()->Delete($this->id);
+    }
+
+
+    /***
+     * Will  implemented by Sub class
+     *
+     * @throws Exception
+     */
+    public function Index()
+    {
+        throw new Exception('Method not implemented!');
+    }
+
+    /***
+     * Will  implemented by Sub class
+     *
+     * @throws Exception
+     */
+    public function View()
+    {
+        throw new Exception('Method not implemented!');
+    }
+
+
+    /***
+     * Will  implemented by Sub class
+     *
+     * @throws Exception
+     */
+    public function Update()
+    {
+        throw new Exception('Method not implemented!');
+    }
+
+    /***
+     * Will  implemented by Sub class
+     *
+     * @throws Exception
+     */
+    public function Create()
+    {
+        throw new Exception('Method not implemented!');
+    }
+
+
+    /***
+     * Will  implemented by Sub class
+     *
+     * @throws Exception
+     */
+    public function Delete()
+    {
+        throw new Exception('Method not implemented!');
     }
 
 

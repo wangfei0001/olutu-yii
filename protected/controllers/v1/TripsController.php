@@ -8,7 +8,7 @@
  */
 class TripsController extends ApiController
 {
-    public function actionList()
+    public function Index()
     {
         $rows = Trip::model('Trip')->findColumn('name,fk_user,is_group,created_at,fk_default_image');
 
