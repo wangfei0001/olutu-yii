@@ -23,6 +23,14 @@ return array(
 			'password' => '',
 			'charset' => 'utf8',
 		),
+        'testdb'=>array(
+            'class' => 'CDbConnection',
+            'connectionString' => 'mysql:host=localhost;dbname=olutu_test',
+            'emulatePrepare' => true,
+            'username' => 'root',
+            'password' => '',
+            'charset' => 'utf8',
+        ),
 
 		'log'=>array(
 			'class'=>'CLogRouter',

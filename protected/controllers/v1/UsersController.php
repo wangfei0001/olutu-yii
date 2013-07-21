@@ -20,7 +20,7 @@ class UsersController extends ApiController
 
 
     /***
-     * curl -d 'email=wangfei001@hotmail.com&username=wangfei0001&lname=wang&fname=fei' http://olutu-yii/api/v1/users
+     * curl -d 'email=wangfei001@hotmail.com&username=wangfei0001&password=616682' http://olutu-yii/api/v1/users
      */
     public function actionCreate()
     {
@@ -30,6 +30,7 @@ class UsersController extends ApiController
         $user->username = $this->getParam('username');
         $user->lname = $this->getParam('lname');
         $user->fname = $this->getParam('fname');
+        $user->password = $this->getParam('password');
 
 
         if($user->save()){

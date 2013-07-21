@@ -13,7 +13,7 @@ class User extends UserBase
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('username, email, lname, fname', 'required'),
+            array('username, email, password', 'required'),
             array('username, email', 'length', 'max'=>255),
             array('lname, fname', 'length', 'max'=>128),
             // The following rule is used by search().
