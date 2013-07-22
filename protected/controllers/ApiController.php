@@ -25,6 +25,8 @@ class ApiController extends CController
 
     protected $id;
 
+    public $id_user;
+
 
     /***
      * Set error handler function
@@ -33,8 +35,33 @@ class ApiController extends CController
     {
         parent::init();
 
-        Yii::app()->attachEventHandler('onException',array($this,'handleError'));
-        Yii::app()->attachEventHandler('onError',array($this,'handleError'));
+//        Yii::app()->attachEventHandler('onException',array($this,'handleError'));
+//        Yii::app()->attachEventHandler('onError',array($this,'handleError'));
+
+        $header = apache_request_headers();
+        $auth = $header['Authorization'];
+
+        if(!empty($auth)){
+            $auth = explode(':', $auth);
+            if(!$this->auth($auth[0], $auth[1])){
+                throw new Exception('Http Basic Authorization 认证失败！无访问权限');
+            }
+        }
+    }
+
+    protected function auth($key, $secret)
+    {
+        $user = User::model('User')->find('username = :username', array('username'=>$key));
+
+        if($user){
+            if($user->password == $secret){
+                $this->id_user = $user->id_user;
+
+                return true;
+            }
+        }
+
+        return false;
     }
 
 
@@ -49,7 +76,8 @@ class ApiController extends CController
 
         if ($event instanceof CExceptionEvent)
         {
-            $statusCode = $event->exception->statusCode;
+            if(!empty($event->exception->statusCode))
+                $statusCode = $event->exception->statusCode;
 
             $body = array(
                 'code' => $event->exception->getCode(),
@@ -88,6 +116,7 @@ class ApiController extends CController
         $association = $this->getParam('association');
 
 
+        $instance = null;
 
         if($version != $this->latestVersion){
             throw new Exception('Version ' .$version .' not support!');
@@ -100,7 +129,9 @@ class ApiController extends CController
             throw new Exception('Class ' .$className .' not found!');
         }
         if(!$association){  //no association controller
-            return new $className($controller);
+            $instance = new $className($controller);
+            $instance->id_user = $this->id_user;
+            return $instance;
         }
 
 
@@ -118,7 +149,9 @@ class ApiController extends CController
         }
         $this->id = $id;
 
-        return new $assoClassName($association);
+        $instance = new $assoClassName($association);
+        $instance->id_user = $this->id_user;
+        return $instance;
     }
 
     /**

@@ -13,7 +13,7 @@ class User extends UserBase
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('username, email, password', 'required'),
+            array('username, email, password, secret_access_key, access_key_id', 'required'),
             array('username, email', 'length', 'max'=>255),
             array('lname, fname', 'length', 'max'=>128),
             // The following rule is used by search().
@@ -32,15 +32,22 @@ class User extends UserBase
         );
     }
 
+
+
     /***
      * @return bool
      */
-//    public function save()
-//    {
-//        $oldUser = self::model()->find('email=:email', array(':email'=>$this->email));
-//        if(!empty($oldUser)){
-//            return false;
-//        }
-//        return parent::save();
-//    }
+    public function save($runValidation = true, $attributes = NULL)
+    {
+        if($this->isNewRecord){ //generate the access key
+            $this->access_key_id = 'key_id';        //should be changed.
+            $this->secret_access_key = 'access_key';
+        }
+
+        $oldUser = self::model()->find('email=:email', array(':email'=>$this->email));
+        if(!empty($oldUser)){
+            return false;
+        }
+        return parent::save();
+    }
 }
