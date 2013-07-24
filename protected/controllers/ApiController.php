@@ -39,9 +39,14 @@ class ApiController extends CController
 //        Yii::app()->attachEventHandler('onError',array($this,'handleError'));
 
         $header = apache_request_headers();
-        $auth = $header['Authorization'];
+        $auth = isset($header['Authorization']) ? $header['Authorization'] : null;
 
         if(!empty($auth)){
+            if(substr($auth,0,6) == 'Basic '){
+                $auth = str_replace('Basic ','', $auth);
+                $auth = base64_decode($auth);
+
+            }
             $auth = explode(':', $auth);
             if(!$this->auth($auth[0], $auth[1])){
                 throw new Exception('Http Basic Authorization 认证失败！无访问权限');
