@@ -6,18 +6,6 @@ class m130724_213121_add_tables extends CDbMigration
 	{
         $this->execute("
 
---
--- Database: `olutu`
---
-CREATE DATABASE IF NOT EXISTS `olutu` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `olutu`;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `airport_code`
---
-
 CREATE TABLE IF NOT EXISTS `airport_code` (
   `id_airport_code` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(128) NOT NULL,
@@ -88,6 +76,9 @@ CREATE TABLE IF NOT EXISTS `merchants` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_merchant`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+ALTER TABLE  `info_flights` CHANGE  `fk_city_src`  `fk_city_src` BIGINT( 20 ) NULL COMMENT  '出发城市';
+ALTER TABLE  `info_flights` CHANGE  `fk_city_dst`  `fk_city_dst` BIGINT( 20 ) NULL COMMENT  '到达城市';
 
         ");
 	}

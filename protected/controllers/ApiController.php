@@ -136,6 +136,7 @@ class ApiController extends CController
         if(!$association){  //no association controller
             $instance = new $className($controller);
             $instance->id_user = $this->id_user;
+            $instance->init();
             return $instance;
         }
 
@@ -156,6 +157,8 @@ class ApiController extends CController
 
         $instance = new $assoClassName($association);
         $instance->id_user = $this->id_user;
+        $instance->id = $id;
+        $instance->init();
         return $instance;
     }
 
@@ -179,17 +182,17 @@ class ApiController extends CController
 
     public function actionCreate()
     {
-        return $this->getController()->Create($this->id);
+        return $this->getController()->Create();
     }
 
     public function actionUpdate()
     {
-        return $this->getController()->Update($this->id);
+        return $this->getController()->Update();
     }
 
     public function actionDelete()
     {
-        return $this->getController()->Delete($this->id);
+        return $this->getController()->Delete();
     }
 
 

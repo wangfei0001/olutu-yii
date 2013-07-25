@@ -50,4 +50,25 @@ class User extends UserBase
         }
         return parent::save();
     }
+
+
+    /***
+     * Validate the user
+     *
+     * @param $uid
+     * @param null $ownerid
+     * @throws Exception
+     */
+    public static function validateUser($uid, $ownerid = null)
+    {
+        $user = self::model('User')->find('id_user = :id_user', array('id_user'=>$uid));
+        if(!$user){
+            throw new Exception('User [' .$uid .'] can not be found!');
+        }
+        if($ownerid){
+            if($uid != $ownerid){
+                throw new Exception('No permission!');
+            }
+        }
+    }
 }
