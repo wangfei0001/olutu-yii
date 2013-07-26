@@ -2,11 +2,11 @@
 /**
  * Created by JetBrains PhpStorm.
  * User: wangfei0001
- * Date: 13-7-25
- * Time: PM10:41
+ * Date: 13-7-26
+ * Time: PM9:56
  * To change this template use File | Settings | File Templates.
  */
-class TripPlanController extends ApiController
+class MyTripController extends ApiController
 {
     /***
      *
@@ -21,19 +21,30 @@ class TripPlanController extends ApiController
         User::validateUser($this->id, $this->id_user);
     }
 
+
+
     /***
-     * url  http://olutu-yii/api/v1/users/18/tripPlan
+     * curl -G -d "is_plan=1" http://olutu-yii/api/v1/users/18/myTrip
      */
     public function Index()
     {
-        $plans = TripPlanBase::model()->findAll('fk_user = :fk_user', array('fk_user' => $this->id));
+        $is_plan = $this->getParam('is_plan');
+
+        if($is_plan != 1) $is_plan = 0;
+
+        $criteria = new CDbCriteria;
+        $criteria->addCondition('is_plan = ' .$is_plan);
+        $criteria->addCondition('fk_user = ' .$this->id);
+
+
+        $trips = Trip::model('Trip')->findAll($criteria);
 
         $return = array();
-        foreach($plans as $plan){
+        foreach($trips as $trip){
             $return[] = array(
-                'title' => $plan->title,
+                'title' => $trip->name,
                 'image' => 'http://olutu-yii/uploads/covers/AU.1.120X90.jpg'
-                );
+            );
         }
 
 
@@ -45,6 +56,4 @@ class TripPlanController extends ApiController
             )
         );
     }
-
-
 }
