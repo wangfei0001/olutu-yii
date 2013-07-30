@@ -10,7 +10,7 @@ class TripsController extends ApiController
 {
     public function Index()
     {
-        $rows = Trip::model('Trip')->findColumn('name,fk_user,is_group,created_at,fk_default_image');
+        $rows = Trip::model('Trip')->findColumn('id_trip,name,fk_user,is_group,created_at,fk_default_image');
 
         foreach($rows as &$row){
             if($row['fk_default_image'] != 0){

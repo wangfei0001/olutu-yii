@@ -81,7 +81,9 @@ return array(
 			'routes'=>array(
 				array(
 					'class'=>'CFileLogRoute',
-					'levels'=>'error, warning',
+					'levels'=>'error, warning, trace, info',
+                    'logFile'=>'system.log',
+                    'categories'=>'vardump',
 				),
 				// uncomment the following to show log messages on web pages
 				/*
@@ -98,5 +100,14 @@ return array(
 	'params'=>array(
 		// this is used in contact page
 		'adminEmail'=>'webmaster@example.com',
+        /***
+         * Own defined configuration
+         */
+        'photo'     =>      array(
+            'uploadPath'    =>          'uploads/trips/{UID}/{TripID}/',
+            'size'  =>      array(
+
+            )
+        )
 	),
 );
